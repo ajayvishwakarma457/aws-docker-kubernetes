@@ -1,6 +1,5 @@
 
 1. Amazon Elastic Beanstalk (PaaS, Simple)
-
     Deploy Dockerized Node.js directly.
     Beanstalk provisions EC2, load balancer, scaling automatically.
     Easiest "managed" way (less infra setup).
