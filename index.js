@@ -24,7 +24,11 @@ app.get('/', (req, res) => {
 
 app.get('/manish', (req, res) => {
    res.send('Our Manish page.');
- });
+});
+
+app.get('/sujeet', (req, res) => {
+   res.send('Our Sujeet page.');
+});
 
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
