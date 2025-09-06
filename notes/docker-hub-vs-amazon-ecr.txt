@@ -1,0 +1,22 @@
+🐳 Docker Hub — Use When:
+    You need public base images (Node.js, Nginx, Redis, etc.).
+    You’re working on open-source projects that others will pull.
+    Development or prototyping (quick image sharing across devs).
+    CI/CD pipelines that don’t rely only on AWS.
+    Cost-sensitive for small projects (free tier works for public images).
+
+
+☁️ Amazon ECR — Use When:
+    You’re deploying production apps on AWS (ECS, EKS, Lambda).
+    You need private, secure image storage with IAM integration.
+    You want low-latency pulls inside AWS regions (faster deployments).
+    You want lifecycle policies to clean old images and save cost.
+    Enterprise use cases where security, compliance, and scalability matter.
+
+
+🚀 Quick Rule of Thumb
+    Base images & dev → Docker Hub.
+    Production on AWS → ECR.
+    Hybrid approach (most common):
+        Pull base image from Docker Hub (e.g., node:20-alpine).
+        Build your app image → Push to ECR → Deploy with ECS/EKS.
