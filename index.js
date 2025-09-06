@@ -34,6 +34,10 @@ app.get('/roobee', (req, res) => {
    res.send('Our Roobee page.');
 });
 
+app.get('/vijay', (req, res) => {
+   res.send('Our Vijay page.');
+});
+
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
 });
