@@ -47,5 +47,3 @@
     sudo usermod -aG docker ubuntu
 
 
-🔹 4. Deploy Your Node.js App with Docker
-

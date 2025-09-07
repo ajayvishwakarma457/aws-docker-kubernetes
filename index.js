@@ -38,6 +38,10 @@ app.get('/vijay', (req, res) => {
    res.send('Our Vijay page.');
 });
 
+app.get('/ram', (req, res) => {
+   res.send('Our Ram page.');
+});
+
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
 });

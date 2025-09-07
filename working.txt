@@ -1,0 +1,19 @@
+
+1. Build with multi-architecture support (recommended)
+    Update your GitHub Actions (or local build) to build for amd64 and arm64:
+
+    docker buildx build \
+    --platform linux/amd64,linux/arm64 \
+    -t 934445953316.dkr.ecr.ap-south-1.amazonaws.com/my-node-app:latest \
+    --push .
+
+
+2. Build only for amd64 (if you only need EC2)
+    If your EC2 is amd64, build specifically for it:
+
+    docker buildx build \
+    --platform linux/amd64 \
+    -t 934445953316.dkr.ecr.ap-south-1.amazonaws.com/my-node-app:latest \
+    --push .
+
+
