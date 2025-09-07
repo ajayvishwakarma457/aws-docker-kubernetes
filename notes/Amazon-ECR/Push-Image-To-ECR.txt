@@ -1,0 +1,65 @@
+🚀 Deploying Docker Images to Amazon ECR (Elastic Container Registry)
+    This guide explains how to authenticate Docker with AWS ECR, build your Node.js Docker image, and push it to ECR for deployment.
+
+
+1. Authenticate Docker with AWS ECR
+    First, use the AWS CLI to retrieve a login token and authenticate:
+    aws ecr get-login-password --region ap-south-1 \
+    | docker login --username AWS \
+    --password-stdin 934445953316.dkr.ecr.ap-south-1.amazonaws.com
+
+    ✅ If this succeeds, you’ll see:
+    Login Succeeded
+
+
+2. Build the Docker Image
+    If your Dockerfile is ready, build your Node.js app into an image:
+    docker build -t my-node-app .
+
+
+3. Tag the Image for ECR
+    Tag the local image so it points to your ECR repository:
+    docker tag my-node-app:latest \
+    934445953316.dkr.ecr.ap-south-1.amazonaws.com/my-node-app:latest
+
+
+4. Push the Image to ECR
+    Push the tagged image to your ECR registry:
+    docker push 934445953316.dkr.ecr.ap-south-1.amazonaws.com/my-node-app:latest
+
+============================================================================================================================================================
+
+1. Authenticate Docker with AWS ECR
+    First, use the AWS CLI to retrieve a login token and authenticate:
+    aws ecr get-login-password --region ap-south-1 \
+    | docker login --username AWS \
+    --password-stdin 934445953316.dkr.ecr.ap-south-1.amazonaws.com
+
+
+2. (Recommended) Multi-Architecture Builds
+    a) Build for both amd64 and arm64 (portable across EC2, Graviton, Apple M1/M2):
+        docker buildx build \
+        --platform linux/amd64,linux/arm64 \
+        -t 934445953316.dkr.ecr.ap-south-1.amazonaws.com/my-node-app:latest \
+        --push .
+
+    b) Build only for amd64 (if you only deploy on x86_64 EC2):
+        docker buildx build \
+        --platform linux/amd64 \
+        -t 934445953316.dkr.ecr.ap-south-1.amazonaws.com/my-node-app:latest \
+        --push .
+
+
+6. Run the Image on EC2
+    Once pushed, you can pull & run it on EC2:
+
+    # Pull from ECR
+    docker pull 934445953316.dkr.ecr.ap-south-1.amazonaws.com/my-node-app:latest
+
+    # Run the container (map port 3000 inside container → port 80 on EC2)
+    docker run -d -p 80:3000 \
+    934445953316.dkr.ecr.ap-south-1.amazonaws.com/my-node-app:latest
+
+
+
+
