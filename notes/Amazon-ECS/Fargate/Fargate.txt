@@ -1,0 +1,47 @@
+
+🔹 Steps to Deploy ECR Image to ECS (Fargate)
+
+    1. Create an ECS Cluster
+        Go to ECS console → Clusters → Create cluster.
+        Choose Networking only (powered by AWS Fargate).
+        Name it: my-node-cluster.
+        Click Create.
+
+
+    2. Create a Task Definition
+        A Task Definition is like a blueprint for your container.
+            Go to ECS → Task Definitions → Create new task definition.
+            Choose Fargate launch type.
+            Fill in details:
+                Task definition name: my-node-task.
+                Task role: leave default (unless app needs S3/DynamoDB access).
+                CPU & Memory: e.g., 0.25 vCPU, 512 MB.
+            Add container:
+                Container name: my-node-container.
+                Image URI:
+                    934445953316.dkr.ecr.ap-south-1.amazonaws.com/my-node-app:latest
+                Port mappings: 3000 (your app listens on port 3000).
+            Save the Task Definition.
+
+
+    3. Create a Service
+        A Service runs and maintains your tasks (and can scale them).
+            Go to ECS → Clusters → my-node-cluster → Create service.
+            Launch type: Fargate.
+            Service name: my-node-service.
+            Task definition: select my-node-task:1.
+            Number of tasks: 1 (start with one container).
+            Networking:
+                Choose a VPC and subnets.
+                Assign a public IP (ENABLED) if you want to access from internet.
+            (Optional) Attach a Load Balancer:
+                If you want a public URL, select Application Load Balancer.
+                Create a new ALB → map it to port 80 → forward to your container port 3000.
+             Click Create Service.   
+    
+    4. Verify Deployment
+
+        Once running, go to ECS → my-node-cluster → Tasks.
+        Find your running task → check Public IP.
+        Open in browser:
+            http://<public-ip>:3000

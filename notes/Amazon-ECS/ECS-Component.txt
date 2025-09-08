@@ -1,0 +1,80 @@
+
+    1. What is AWS ECS?
+        Amazon Elastic Container Service (ECS) is a fully managed container orchestration service provided by AWS. 
+        It lets you run Docker containers on a cluster of Amazon EC2 instances or on AWS Fargate (serverless compute for containers). ECS helps manage scaling, networking, load balancing, and availability of your containerized applications.
+
+
+    2. Key Components of ECS
+
+        a. Cluster
+            A logical grouping of resources (EC2 instances or Fargate).
+            Think of it as the pool of compute resources where your containers run.
+            You can have multiple services and tasks inside a cluster.
+
+        b. Task Definition
+            A blueprint for your application.
+            Defines which Docker image(s) to run, CPU/memory requirements, environment variables, networking, and storage.
+            Can include multiple containers per task (e.g., app container + sidecar logging container).
+
+
+        c. Task
+            A running instance of a task definition.
+            If you want one copy of your app running, you launch one task.
+            If you need five copies for scaling, you launch five tasks.
+
+
+        d. Service 
+            Ensures that a certain number of tasks are always running.
+            Handles scaling (auto or manual).
+            Integrates with Elastic Load Balancer (ELB/ALB/NLB) for traffic distribution.
+            Example: A web service that ensures 3 tasks (containers) are always active.
+
+
+        e. Container Agent 
+            Runs on each EC2 instance in your ECS cluster (not needed for Fargate).
+            Communicates with the ECS control plane.
+            Ensures the containers (tasks) are started/stopped as instructed.
+
+        
+        f. Scheduling
+            ECS has schedulers to place containers across your cluster:
+                Service scheduler: maintains the desired task count.
+                Custom scheduler: you can define your own logic.
+                Daemon scheduling: run one task on every node (useful for logging or monitoring agents).
+
+
+        g. Launch Types
+            EC2 Launch Type: You manage the underlying EC2 instances where tasks run.
+            Fargate Launch Type: AWS manages the infrastructure, you just pay for the CPU/memory you request.
+
+
+        h. Networking
+            ECS tasks can run inside a VPC.
+            Supports AWS VPC networking mode (awsvpc) → each task gets its own ENI (Elastic Network Interface).
+            Security groups and IAM roles can be attached at the task level.
+
+        
+        i. IAM Roles
+            Task Role: Assign permissions to tasks (e.g., access S3, DynamoDB).
+            Execution Role: Used by ECS to pull container images and publish logs.
+
+        
+        j. ECS with Other AWS Services
+            ECR (Elastic Container Registry) → Store and pull your Docker images.
+            CloudWatch Logs & Metrics → Monitor and log containers.
+            ALB/NLB → Distribute traffic across tasks.
+            Auto Scaling → Scale services up/down based on load.
+
+
+        3. ECS Deployment Models
+            Rolling update: Replace old tasks with new ones gradually.
+            Blue/Green deployment (via CodeDeploy): Run new version alongside old, then switch traffic.
+            Canary deployments: Send small % of traffic to new version before full rollout.
+
+
+    ✅ In short:
+        Cluster = pool of compute.
+        Task Definition = app blueprint.
+        Task = running container(s).
+        Service = keeps tasks running & scalable.
+        Launch Type = EC2 (you manage infra) vs Fargate (AWS manages infra).
