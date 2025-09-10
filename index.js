@@ -22,26 +22,6 @@ app.get('/', (req, res) => {
    res.send('Our Services page.');
  });
 
-app.get('/manish', (req, res) => {
-   res.send('Our Manish page.');
-});
-
-app.get('/sujeet', (req, res) => {
-   res.send('Our Sujeet page.');
-});
-
-app.get('/roobee', (req, res) => {
-   res.send('Our Roobee page.');
-});
-
-app.get('/vijay', (req, res) => {
-   res.send('Our Vijay page.');
-});
-
-app.get('/ram', (req, res) => {
-   res.send('Our Ram page.');
-});
-
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
 });

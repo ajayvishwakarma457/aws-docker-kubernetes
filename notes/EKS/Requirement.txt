@@ -1,0 +1,106 @@
+Nice 🚀 Since you’re a Node.js developer and want to deploy your app on EKS, here’s the exact set of requirements you’ll need (think of it as a checklist ✅).
+
+🔹 1. Application Requirements
+    1. Dockerized Node.js app
+        1. A working Dockerfile that builds your Node.js app.
+        2. Example (simple Express app):
+            FROM node:18-alpine
+            WORKDIR /app
+            COPY package*.json ./
+            RUN npm install --only=production
+            COPY . .
+            EXPOSE 3000
+            CMD ["npm", "start"]
+    2. Local test → docker build . -t my-node-app and docker run -p 3000:3000 my-node-app.
+
+
+🔹 2. AWS Requirements
+    1. AWS Account (obviously 😅).
+    2. EKS Cluster (can be created via AWS Console or eksctl).
+    3. ECR Repository to store your Docker image.
+    4. IAM Roles & Permissions
+        1. Push/pull to ECR.
+        2. Allow EKS pods to access AWS resources if needed (via IRSA).
+
+
+🔹 3. Kubernetes Requirements
+    You need Kubernetes manifests (YAML files) for your app:
+
+    1. Deployment (runs your pods):
+        apiVersion: apps/v1
+        kind: Deployment
+        metadata:
+        name: nodejs-app
+        spec:
+        replicas: 3
+        selector:
+            matchLabels:
+            app: nodejs-app
+        template:
+            metadata:
+            labels:
+                app: nodejs-app
+            spec:
+            containers:
+                - name: nodejs
+                image: <your-account-id>.dkr.ecr.ap-south-1.amazonaws.com/my-node-app:latest
+                ports:
+                    - containerPort: 3000
+
+    2. Service (exposes app inside cluster):
+        apiVersion: v1
+        kind: Service
+        metadata:
+        name: nodejs-service
+        spec:
+        type: ClusterIP
+        selector:
+            app: nodejs-app
+        ports:
+            - port: 80
+            targetPort: 3000
+
+    3. Ingress (optional, to expose via ALB):
+        apiVersion: networking.k8s.io/v1
+        kind: Ingress
+        metadata:
+        name: nodejs-ingress
+        annotations:
+            kubernetes.io/ingress.class: alb
+        spec:
+        rules:
+            - host: myapp.example.com
+            http:
+                paths:
+                - path: /
+                    pathType: Prefix
+                    backend:
+                    service:
+                        name: nodejs-service
+                        port:
+                        number: 80
+
+
+🔹 4. Tooling Requirements
+    1. kubectl → CLI to interact with Kubernetes.
+    2. eksctl → (optional) to create/manage EKS clusters easily.
+    3. AWS CLI → to push Docker images to ECR.
+    4. Helm (optional) → package manager for Kubernetes (makes deployments easier).
+
+
+🔹 5. CI/CD Requirements (Optional but recommended)
+    1. GitHub Actions (or Jenkins, GitLab CI, etc.) pipeline:
+        1. Build Docker image.
+        2. Push to ECR.
+        3. Deploy to EKS using kubectl or Helm.
+
+
+✅ Summary: To deploy Node.js on EKS you need:
+    1. A Dockerized Node.js app.
+    2. An ECR repo for your image.
+    3. An EKS cluster with worker nodes (EC2 or Fargate).
+    4. Kubernetes manifests (Deployment, Service, Ingress).
+    5. Tooling: AWS CLI, kubectl, eksctl, Helm.
+    6. (Optional) CI/CD pipeline for automation.
+
+

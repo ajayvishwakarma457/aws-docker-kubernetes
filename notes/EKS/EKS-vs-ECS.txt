@@ -1,0 +1,23 @@
+Amazon ECS vs Amazon EKS
+
+    | Feature            | **Amazon ECS (Elastic Container Service)**                                                                   | **Amazon EKS (Elastic Kubernetes Service)**                                                                                                                    |
+    | ------------------ | ------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+    | **Definition**     | AWS’s **proprietary container orchestration service**.                                                       | Managed **Kubernetes (open-source) orchestration** on AWS.                                                                                                     |
+    | **Control Plane**  | AWS manages everything (scheduler, cluster mgmt).                                                            | AWS manages the control plane (K8s API server, etcd). You manage worker nodes and workloads.                                                                   |
+    | **Complexity**     | Simpler – integrates tightly with AWS (IAM, ALB, CloudWatch).                                                | More complex – standard Kubernetes with all its ecosystem.                                                                                                     |
+    | **Portability**    | ECS tasks only run on AWS.                                                                                   | EKS workloads are portable – you can run the same K8s workloads on any Kubernetes cluster (on-prem, GCP, Azure).                                               |
+    | **Ecosystem**      | Limited to AWS features and integrations.                                                                    | Huge Kubernetes ecosystem (Helm, Istio, ArgoCD, Prometheus, etc.).                                                                                             |
+    | **Use Cases**      | - Teams wanting **quick, AWS-only deployments**.<br>- Less ops overhead.<br>- Tight AWS service integration. | - Enterprises needing **multi-cloud / hybrid strategy**.<br>- Teams already familiar with Kubernetes.<br>- Advanced use cases with custom operators & tooling. |
+    | **Learning Curve** | Easier to learn and manage.                                                                                  | Steeper – requires Kubernetes knowledge.                                                                                                                       |
+    | **Pricing**        | No extra cost for control plane (pay for resources only).                                                    | Pay for worker nodes + \~\$0.10 per hour per cluster for control plane.                                                                                        |
+    | **Scaling**        | Built-in autoscaling (with Fargate or EC2).                                                                  | Kubernetes-native scaling (HPA, Cluster Autoscaler, Karpenter).                                                                                                |
+
+
+Quick Analogy
+    ECS → like a fully managed bus service inside AWS: you buy a ticket, and AWS decides how the buses run.
+    EKS → like getting your own buses but with AWS managing the bus depot. You decide the routes, but you need more knowledge to run it well.
+
+
+✅ Industry Standard:
+    Startups / small teams → ECS (simpler, cheaper, AWS-native).
+    MNCs / enterprises → EKS (Kubernetes is industry-standard, portable, integrates with existing DevOps tooling).

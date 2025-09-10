@@ -1,0 +1,70 @@
+
+🔹 What is EKS?
+    1. Amazon EKS is AWS’s managed Kubernetes control plane.
+    2. AWS runs and scales the Kubernetes API server and etcd (the brain of Kubernetes).
+    3. You (the customer) focus on worker nodes & workloads (apps, pods, services).
+
+
+🔹 EKS Architecture
+    1. EKS Control Plane (Managed by AWS)
+        1. Kubernetes API server
+        2. etcd (cluster state database)
+        3. Highly available across multiple AZs
+        4. You pay $0.10 per hour per cluster (~$72/month)
+
+
+    2. Worker Nodes (Managed by You / AWS Fargate)
+        1. Run in EC2 instances (you manage OS, scaling)
+        2. Or run in AWS Fargate (serverless, no EC2 management)
+
+    3. Networking
+        1. Uses Amazon VPC CNI plugin for pod networking
+        2. Supports Service Mesh (Istio, App Mesh)
+        3. Load balancers: ALB, NLB, CLB for ingress/egress
+
+
+    4. Storage
+        1. Integrates with EBS, EFS, S3 for persistent volumes
+
+    5. Security
+        1. Deep integration with IAM (IAM roles for service accounts = IRSA)
+        2. Supports RBAC (Kubernetes native role-based access control)
+
+
+
+🔹 Why Companies Use EKS
+    ✅ Kubernetes standardization → same workloads run on GCP, Azure, on-prem.
+    ✅ Multi-cloud & hybrid cloud → avoid AWS lock-in.
+    ✅ Ecosystem → Helm charts, ArgoCD, Prometheus, Istio, etc.
+    ✅ Enterprise scale → supports 1,000s of nodes & workloads.
+
+
+🔹 How to Deploy Workloads on EKS
+
+    1. Container Registry → push images to ECR (or Docker Hub).
+    2. Cluster Setup → create EKS cluster (console, eksctl, or Terraform).
+    3. Worker Nodes → run on EC2 or Fargate.
+    4. Deployment → use Kubernetes YAML manifests (Deployment, Service, Ingress).
+    5. Scaling → use:
+        1. HPA (Horizontal Pod Autoscaler) → scales pods based on CPU/memory.
+        2. Cluster Autoscaler / Karpenter → scales worker nodes.
+    6. Monitoring → use CloudWatch, Prometheus, Grafana.
+    7. Ingress → ALB Ingress Controller for routing traffic to pods.
+
+
+🔹 EKS Deployment Options
+    1. EKS with EC2 → full control, best for predictable workloads.
+    2. EKS with Fargate → serverless, best for variable workloads or small apps.
+    3. Hybrid → mix EC2 + Fargate.
+
+
+🔹 Pricing Summary
+    1. Control plane → $0.10 per hour (~$72 per month).
+    2. Worker nodes → pay for EC2 or Fargate.
+    3. Add-ons (load balancers, storage, data transfer) cost extra.
+
+
+📌 In MNCs:
+    1. EKS is preferred because they already run Kubernetes elsewhere.
+    2. CI/CD → GitHub Actions / Jenkins / ArgoCD → deploys workloads to EKS.
+    3. Standard approach: GitHub → Build image → ECR → EKS (with Helm/ArgoCD).

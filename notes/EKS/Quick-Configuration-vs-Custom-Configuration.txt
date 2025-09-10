@@ -1,0 +1,50 @@
+
+🔹 1) Quick Configuration (with EKS Auto Mode)
+
+    1. AWS automates most of the setup:
+        Creates the EKS control plane.
+        Provisions worker nodes automatically (using AWS Fargate or managed node groups).
+        Sets up networking (VPC, subnets, security groups) for you.
+        Installs common add-ons (like VPC CNI, CoreDNS, kube-proxy).
+
+    2. Best for beginners or when you want to get started quickly.
+
+    3. You don’t have to worry about:
+        Node group sizing.
+        Picking instance types.
+        Setting IAM roles manually.
+
+    4. AWS manages scaling, patching, upgrades in the background (like “serverless Kubernetes”).
+
+    ✅ Use case:
+        Developers who just want to run workloads without touching cluster internals.
+        POCs, small-to-medium apps, or when you want to save time.        
+    
+    ⚠️ Limitation:
+        Less flexibility. AWS decides infra defaults.
+        Costs may be higher if you don’t optimize.
+
+
+🔹 2) Custom Configuration
+    
+    1. You set up everything manually:
+        Choose or create your VPC, subnets, and networking.
+        Define node groups (EC2 types, scaling policies, spot vs on-demand).
+        Manage IAM roles, security groups, encryption.
+        Decide which add-ons to install and configure.
+
+    2. AWS still manages the control plane, but you own the worker nodes and infra.
+
+    ✅ Use case:
+        Production clusters where you need full control & customization.
+        MNC/enterprise setups with compliance, cost optimization, hybrid/multi-cloud strategies.
+        Complex workloads (ML pipelines, multi-tenant apps, strict security).
+
+    ⚠️ Limitation:
+        Requires deeper Kubernetes + AWS networking knowledge.
+        More effort to manage, but also more flexibility.
+
+
+🔹 Quick Analogy
+    Quick Config (Auto Mode) = like renting a fully furnished apartment. Just bring your laptop, and you’re good.
+    Custom Config = like building your own house. More work, but you control every detail.
